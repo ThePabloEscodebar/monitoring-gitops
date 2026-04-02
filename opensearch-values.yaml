@@ -1,0 +1,35 @@
+# OpenSearch cluster
+opensearch:
+  clusterName: opensearch-cluster
+  nodeGroup: data
+  replicas: 1
+  persistence:
+    enabled: true
+    size: 20Gi
+  resources:
+    requests:
+      cpu: 500m
+      memory: 2Gi
+    limits:
+      cpu: 1
+      memory: 2Gi
+  config:
+    opensearch.yml: |
+      cluster.name: opensearch-cluster
+      discovery.type: single-node
+      plugins.security.disabled: true   # отключаем безопасность для упрощения
+  extraEnvs:
+    - name: DISABLE_INSTALL_DEMO_CONFIG
+      value: "true"
+    - name: DISABLE_SECURITY_PLUGIN
+      value: "true"
+
+# OpenSearch Dashboards
+dashboards:
+  enabled: true
+  replicas: 1
+  service:
+    type: ClusterIP
+  config:
+    opensearch.hosts: http://opensearch-cluster-data:9200
+    opensearch.ssl.verificationMode: none

@@ -1,0 +1,19 @@
+server:
+  remoteWrite:
+    - url: http://victoria-metrics-victoria-metrics-single.monitoring:8428/api/v1/write
+  persistentVolume:
+    enabled: true
+    size: 10Gi
+  service:
+    type: ClusterIP
+  serviceMonitor:
+    enabled: true
+
+alertmanager:
+  enabled: false   # для простоты отключим Alertmanager
+
+nodeExporter:
+  enabled: true   # собираем метрики с нод
+
+kubeStateMetrics:
+  enabled: true   # метрики состояния Kubernetes
